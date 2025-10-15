@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X BATTLE - Join The Ultimate Battle & Earn Rewards</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-light: #4d9eff;      /* Premium Soft Blue */
+            --secondary-light: #e0e0e0;    /* Soft Silver/White */
+            --accent-glow: #ffd700;       /* Rich Gold */
+            --bg-color-dark: #050810;     /* Deeper, more cinematic dark blue */
+            --bg-color-medium: #111827;   /* A slightly lighter dark blue-gray */
+            --text-color: #f0f0f0;
+
+            --glow-shadow: 0 0 15px var(--primary-light), 0 0 30px rgba(77, 158, 255, 0.5);
+            --glow-shadow-accent: 0 0 15px var(--accent-glow), 0 0 30px rgba(255, 215, 0, 0.6);
+        }
+
+        /* --- Global & Reset --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color-dark);
+            color: var(--text-color);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        /* --- High Performance CSS Background Animation --- */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            background: transparent;
+            z-index: -1;
+        }
+        .stars.stars1 {
+            background-image: radial-gradient(1px 1px at 20px 30px, #eee, rgba(0, 0, 0, 0)), radial-gradient(1px 1px at 40px 70px, #fff, rgba(0, 0, 0, 0)), radial-gradient(1px 1px at 50px 160px, #ddd, rgba(0, 0, 0, 0)), radial-gradient(1px 1px at 90px 40px, #fff, rgba(0, 0, 0, 0)), radial-gradient(2px 2px at 130px 80px, #fff, rgba(0, 0, 0, 0)), radial-gradient(2px 2px at 160px 120px, #ddd, rgba(0, 0, 0, 0));
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            animation: zoom 15s infinite;
+            opacity: 0;
+            animation-delay: 1s;
+        }
+        .stars.stars2 {
+            background-image: radial-gradient(1px 1px at 10px 90px, #eee, rgba(0, 0, 0, 0)), radial-gradient(2px 2px at 80px 30px, #fff, rgba(0, 0, 0, 0)), radial-gradient(2px 2px at 120px 180px, #ddd, rgba(0, 0, 0, 0));
+            background-repeat: repeat;
+            background-size: 300px 300px;
+            animation: zoom 20s infinite;
+            opacity: 0;
+            animation-delay: 2s;
+        }
+
+        @keyframes zoom {
+            0% {
+                opacity: 0;
+                transform: scale(1);
+                animation-timing-function: ease-in;
+            }
+            10% {
+                opacity: 1;
+                transform: scale(1.1);
+                animation-timing-function: linear;
+            }
+            85% {
+                opacity: 1;
+                transform: scale(1.4);
+                animation-timing-function: ease-out;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1.5);
+            }
+        }
+
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        section {
+            padding: 6rem 0;
+            border-bottom: 1px solid;
+            border-image: linear-gradient(90deg, transparent, rgba(77, 158, 255, 0.4), transparent) 1;
+            overflow: hidden;
+        }
+        
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+            color: #fff;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            animation: text-shimmer 4s infinite alternate;
+        }
+        
+        .hidden {
+            opacity: 0;
+            /* BLUR EFFECT REMOVED TO PREVENT LAG AND BLURRINESS */
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+
+        .show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        /* --- 1️⃣ Hero Section / Header --- */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: radial-gradient(ellipse at bottom, var(--bg-color-medium) 0%, var(--bg-color-dark) 70%);
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .app-logo {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 1.5rem;
+            animation: float 6s ease-in-out infinite;
+            border-radius: 25px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.7), 0 0 40px rgba(255, 215, 0, 0.4);
+        }
+
+        .app-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2), 0 0 30px var(--primary-light), 0 0 50px var(--primary-light);
+            animation: subtle-glow 3s infinite alternate;
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            margin: 1rem 0 2.5rem;
+            color: var(--secondary-light);
+            text-shadow: 0 0 10px rgba(224, 224, 224, 0.3);
+        }
+
+        .download-button-wrapper a {
+            text-decoration: none;
+        }
+
+        .download-button {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            padding: 1rem 3rem;
+            border: 2px solid var(--accent-glow);
+            border-radius: 50px;
+            background: transparent;
+            color: var(--accent-glow);
+            cursor: pointer;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            box-shadow: 0 0 10px var(--accent-glow), 0 0 20px rgba(255, 215, 0, 0.5), inset 0 0 10px rgba(255, 215, 0, 0.5);
+            animation: pulse 2.5s infinite;
+        }
+
+        .download-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255, 215, 0, 0.4), transparent);
+            transition: all 0.7s ease;
+        }
+
+        .download-button:hover {
+            transform: scale(1.1) translateY(-5px);
+            color: var(--bg-color-dark);
+            background-color: var(--accent-glow);
+            box-shadow: var(--glow-shadow-accent);
+        }
+
+        .download-button:hover:before {
+            left: 100%;
+        }
+
+        .file-info {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #ccc;
+            opacity: 0.8;
+        }
+
+        /* --- 2️⃣ Features Section --- */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(17, 24, 39, 0.5);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(77, 158, 255, 0.5);
+            box-shadow: 0 0 20px rgba(77, 158, 255, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-light);
+            box-shadow: var(--glow-shadow);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary-light);
+            text-shadow: 0 0 15px var(--primary-light);
+            margin-bottom: 1rem;
+            transition: color 0.3s ease;
+        }
+        
+        .feature-card:hover .feature-icon {
+            color: var(--accent-glow);
+            text-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .feature-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .feature-card p {
+            font-size: 1rem;
+            color: var(--secondary-light);
+        }
+
+        /* --- 3️⃣ Learning / Guide Section --- */
+        #learn {
+            background: radial-gradient(circle at center, #1f0c38, var(--bg-color-dark));
+        }
+        
+        .learning-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .guide-steps {
+            position: relative;
+            padding-left: 50px;
+        }
+        
+        .guide-steps::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(var(--accent-glow), var(--primary-light));
+            border-radius: 2px;
+        }
+
+        .step {
+            margin-bottom: 2.5rem;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-icon {
+            position: absolute;
+            left: -33px;
+            top: 0;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--bg-color-dark);
+            border: 3px solid var(--accent-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--accent-glow);
+            transition: all 0.3s ease;
+            z-index: 1;
+        }
+
+        .step h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: var(--secondary-light);
+            display: flex;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+        
+        .step.active h3, .step:hover h3 {
+            color: var(--accent-glow);
+        }
+        
+        .step h3 .toggle-icon {
+            margin-left: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .step-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+            padding-left: 1rem;
+            margin-top: 0.5rem;
+            color: #ccc;
+            border-left: 2px solid var(--primary-light);
+        }
+
+        .step.active .step-icon {
+            background: var(--accent-glow);
+            color: var(--bg-color-dark);
+            transform: scale(1.1);
+            box-shadow: var(--glow-shadow-accent);
+        }
+        
+        .step.active h3 .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .step.active .step-content {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        /* --- 4️⃣ Promotions / Hype Section --- */
+        .promotions-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .promo-banner {
+            width: 100%;
+            max-width: 800px;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            border: 2px solid;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .promo-banner.primary {
+            border-color: var(--primary-light);
+            text-shadow: 0 0 10px var(--primary-light);
+            box-shadow: 0 0 15px rgba(77, 158, 255, 0.4), inset 0 0 15px rgba(77, 158, 255, 0.3);
+        }
+        
+        .promo-banner span.highlight {
+            color: var(--accent-glow);
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+        
+        .promo-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(110deg, transparent 20%, rgba(255,255,255,0.2) 50%, transparent 80%);
+            transform: skewX(-25deg);
+            animation: shine 5s infinite linear;
+        }
+        
+        @keyframes shine {
+            from { left: -150%; }
+            to { left: 150%; }
+        }
+
+        /* --- 5️⃣ Call-to-Action / Download Section --- */
+        #cta {
+            text-align: center;
+            background: linear-gradient(rgba(5, 8, 16, 0.95), rgba(5, 8, 16, 0.95)), url('https://i.ibb.co/217TTwcW/20251015-153715.png') no-repeat center center/cover;
+            background-attachment: fixed;
+        }
+        
+        #cta .section-title {
+            color: var(--accent-glow);
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        /* --- 6️⃣ Footer Section --- */
+        footer {
+            background: var(--bg-color-medium);
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            width: 80px;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+            filter: grayscale(50%);
+        }
+
+        .footer-links {
+            margin: 1.5rem 0;
+        }
+
+        .footer-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin: 0 1rem;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-glow);
+            text-shadow: 0 0 5px var(--accent-glow);
+        }
+        
+        .social-icons {
+            margin: 1.5rem 0;
+        }
+        
+        .social-icons a {
+            color: #fff;
+            font-size: 1.8rem;
+            margin: 0 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: var(--primary-light);
+            text-shadow: 0 0 10px var(--primary-light);
+            transform: scale(1.2);
+        }
+        
+        .copyright {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* --- 9️⃣ Animations --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes subtle-glow {
+            from { text-shadow: 0 0 10px rgba(255, 255, 255, 0.2), 0 0 30px var(--primary-light), 0 0 50px var(--primary-light); }
+            to { text-shadow: 0 0 10px rgba(255, 255, 255, 0.3), 0 0 40px var(--primary-light), 0 0 65px var(--primary-light); }
+        }
+
+        @keyframes text-shimmer {
+            from { text-shadow: 0 0 15px rgba(255, 255, 255, 0.5); opacity: 0.8; }
+            to { text-shadow: 0 0 20px rgba(255, 255, 255, 0.8); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .app-title {
+                font-size: 2.5rem;
+            }
+
+            .tagline {
+                font-size: 1.2rem;
+            }
+            
+            .download-button {
+                font-size: 1.2rem;
+                padding: 0.8rem 2rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .promo-banner {
+                font-size: 1.3rem;
+            }
+            
+            .guide-steps {
+                padding-left: 40px;
+            }
+            
+            .step-icon {
+                left: -25px;
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- High-performance animated background -->
+    <div class="stars stars1"></div>
+    <div class="stars stars2"></div>
+
+    <!-- 1️⃣ Hero Section / Header -->
+    <header class="hero-section">
+        <div class="hero-content container">
+            <img src="https://i.ibb.co/217TTwcW/20251015-153715.png" alt="X BATTLE Logo" class="app-logo">
+            <h1 class="app-title">X BATTLE</h1>
+            <p class="tagline">Join the Ultimate Battle, Earn Rewards, Dominate the Arena!</p>
+            <div class="download-button-wrapper">
+                <a href="files/X Battle.apk" download>
+                    <button class="download-button">Download APK</button>
+                </a>
+            </div>
+            <p class="file-info">Version: 1.0 | Size: <span class="apk-size-info">Loading...</span></p>
+        </div>
+    </header>
+
+    <main>
+        <!-- 2️⃣ Features Section -->
+        <section id="features" class="container">
+            <h2 class="section-title hidden">Core Features</h2>
+            <div class="features-grid">
+                <div class="feature-card hidden">
+                    <i class="fas fa-gift feature-icon"></i>
+                    <h3>Sign-up Bonus ₹10</h3>
+                    <p>Start your journey with an instant cash bonus on us!</p>
+                </div>
+                <div class="feature-card hidden">
+                    <i class="fas fa-headset feature-icon"></i>
+                    <h3>24/7 Customer Support</h3>
+                    <p>Our team is always here to help you, any time, any day.</p>
+                </div>
+                <div class="feature-card hidden">
+                    <i class="fas fa-gamepad feature-icon"></i>
+                    <h3>Real-time Battle Gameplay</h3>
+                    <p>Experience thrilling, live battles against real players.</p>
+                </div>
+                <div class="feature-card hidden">
+                    <i class="fas fa-download feature-icon"></i>
+                    <h3>Direct APK Download</h3>
+                    <p>Get the app directly and securely from our website.</p>
+                </div>
+                <div class="feature-card hidden">
+                    <i class="fas fa-trophy feature-icon"></i>
+                    <h3>Exclusive Tournaments</h3>
+                    <p>Compete in special events for huge rewards and glory.</p>
+                </div>
+                <div class="feature-card hidden">
+                    <i class="fas fa-book-open feature-icon"></i>
+                    <h3>Learn & Master Strategies</h3>
+                    <p>Use our guide to become a pro and outsmart your opponents.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4️⃣ Promotions / Hype Section -->
+        <section id="promotions" class="container">
+             <h2 class="section-title hidden">Join The Hype</h2>
+             <div class="promotions-container">
+                <div class="promo-banner primary hidden">Sign-up now and get <span class="highlight">₹10 bonus</span> instantly!</div>
+                <div class="promo-banner primary hidden">24/7 support & <span class="highlight">tournaments every hour!</span></div>
+                <div class="promo-banner primary hidden">Earn coins, unlock rewards, <span class="highlight">become the champion!</span></div>
+             </div>
+        </section>
+
+        <!-- 3️⃣ Learning / Guide Section -->
+        <section id="learn">
+            <div class="container">
+                <h2 class="section-title hidden">Become a Pro Player</h2>
+                <div class="learning-container hidden">
+                    <div class="guide-steps">
+                        <div class="step">
+                            <div class="step-icon">1</div>
+                            <h3>Download & Install <i class="fas fa-chevron-down toggle-icon"></i></h3>
+                            <div class="step-content">
+                                <p>Click the "Download APK" button on our page. Once downloaded, open the file and allow installation from unknown sources in your phone's settings to install X BATTLE.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-icon">2</div>
+                            <h3>Sign Up & Claim Bonus <i class="fas fa-chevron-down toggle-icon"></i></h3>
+                            <div class="step-content">
+                                <p>Open the app and complete a quick registration. Your ₹10 sign-up bonus will be instantly credited to your wallet. Use it to enter your first battle!</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-icon">3</div>
+                            <h3>Enter a Battle <i class="fas fa-chevron-down toggle-icon"></i></h3>
+                            <div class="step-content">
+                                <p>Navigate to the main lobby, choose your game mode, and enter a battle. You will be matched with a real player in real-time. The goal is to outscore your opponent within the time limit.</p>
+                            </div>
+                        </div>
+                         <div class="step">
+                            <div class="step-icon">4</div>
+                            <h3>Win & Earn Rewards <i class="fas fa-chevron-down toggle-icon"></i></h3>
+                            <div class="step-content">
+                                <p>Use your skills and strategies to win the battle. Winners earn coins and climb the leaderboard. Participate in tournaments for even bigger prize pools and exclusive rewards!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5️⃣ Call-to-Action / Download Section -->
+        <section id="cta">
+            <div class="container">
+                <h2 class="section-title hidden">Ready to Dominate?</h2>
+                <p class="tagline hidden" style="font-size: 1.5rem; margin-bottom: 2.5rem;">Download Now & Join the Battle!</p>
+                <div class="download-button-wrapper hidden">
+                    <a href="files/X Battle.apk" download>
+                        <button class="download-button">Download The APK Now</button>
+                    </a>
+                </div>
+                <p class="file-info hidden">Safe & Secure | Size: <span class="apk-size-info">Loading...</span></p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 6️⃣ Footer Section -->
+    <footer>
+        <div class="footer-content">
+            <img src="https://i.ibb.co/217TTwcW/20251015-153715.png" alt="X BATTLE Logo" class="footer-logo">
+            <h3>X BATTLE</h3>
+            <p>24/7 Customer Support: support@xbattle.com</p>
+            <div class="footer-links">
+                <a href="#features">Features</a>
+                <a href="#learn">Guide</a>
+                <a href="#">FAQ</a>
+                <a href="#">Terms & Privacy</a>
+            </div>
+            <div class="social-icons">
+                 <a href="#"><i class="fab fa-facebook"></i></a>
+                 <a href="#"><i class="fab fa-instagram"></i></a>
+                 <a href="#"><i class="fab fa-youtube"></i></a>
+                 <a href="#"><i class="fab fa-telegram"></i></a>
+            </div>
+            <p class="copyright">&copy; 2025 X BATTLE. All rights reserved. For users 18+ only.</p>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        
+        // --- Confetti effect on download click ---
+        const downloadButtons = document.querySelectorAll('.download-button');
+        downloadButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                createConfetti(e.clientX, e.clientY);
+            });
+        });
+
+        function createConfetti(x, y) {
+            // Reduced count for better performance
+            const confettiCount = 40; 
+            const colors = ['#4d9eff', '#ffd700', '#ffffff'];
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.left = `${x}px`;
+                confetti.style.top = `${y}px`;
+                confetti.style.width = `${Math.random() * 8 + 4}px`;
+                confetti.style.height = confetti.style.width;
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.opacity = '1';
+                confetti.style.borderRadius = '50%';
+                confetti.style.zIndex = '9999';
+                document.body.appendChild(confetti);
+
+                const angle = Math.random() * 2 * Math.PI;
+                const velocity = Math.random() * 50 + 20;
+                const dx = Math.cos(angle) * velocity;
+                const dy = Math.sin(angle) * velocity - 30;
+
+                confetti.animate([
+                    { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
+                    { transform: `translate(${dx * 5}px, ${dy * 5 + 500}px) rotate(720deg)`, opacity: 0 }
+                ], {
+                    duration: 2000 + Math.random() * 1000,
+                    easing: 'cubic-bezier(0.1, 0.5, 0.5, 1)',
+                    fill: 'forwards'
+                });
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, 3000);
+            }
+        }
+        
+        // --- Interactive Learning Section ---
+        const steps = document.querySelectorAll('.guide-steps .step');
+        steps.forEach(step => {
+            step.addEventListener('click', () => {
+                const content = step.querySelector('.step-content');
+                const isActive = step.classList.contains('active');
+                
+                steps.forEach(s => {
+                    s.classList.remove('active');
+                    s.querySelector('.step-content').style.maxHeight = '0';
+                });
+                
+                if (!isActive) {
+                    step.classList.add('active');
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        });
+
+        // --- Scroll-triggered animations ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        const hiddenElements = document.querySelectorAll('.hidden');
+        hiddenElements.forEach((el) => observer.observe(el));
+
+        // --- DYNAMIC APK FILE SIZE ---
+        const apkUrl = document.querySelector('.download-button-wrapper a').getAttribute('href');
+        const sizeElements = document.querySelectorAll('.apk-size-info');
+
+        fetch(apkUrl, { method: 'HEAD' })
+            .then(response => {
+                if (response.ok) {
+                    const sizeInBytes = response.headers.get('Content-Length');
+                    if (sizeInBytes) {
+                        const sizeInMB = (sizeInBytes / (1024 * 1024)).toFixed(2);
+                        sizeElements.forEach(el => {
+                            el.textContent = `${sizeInMB} MB`;
+                        });
+                    } else {
+                        sizeElements.forEach(el => { el.textContent = 'N/A'; });
+                    }
+                } else {
+                    throw new Error('File not found');
+                }
+            })
+            .catch(error => {
+                console.error("Could not fetch file size:", error);
+                sizeElements.forEach(el => { el.textContent = 'N/A'; });
+            });
+
+    });
+    </script>
+</body>
+</html>
